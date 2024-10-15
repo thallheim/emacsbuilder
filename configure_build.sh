@@ -12,12 +12,12 @@ fi
 
 if [ -f configure ]; then
   ./configure.sh \
-  --with-native-compilation \
+  --with-native-compilation=aot \
   --without-compress-install \
   --with-mailutils \
-  --with-json \
-  --enable-linktime-optimization \
-  --with-x && \
+  --enable-link-time-optimization \
+  --with-x \
+  --with-xwidgets && \
   echo "Config complete, ready to build."
 fi
 
