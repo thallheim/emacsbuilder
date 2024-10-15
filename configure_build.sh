@@ -1,12 +1,16 @@
-echo "--------------------"
-echo "Configure build"
-echo "--------------------"
+#!/bin/sh
+echo "------------------"
+echo " Configure build"
+echo "------------------"
 
-pushd ./src
+cd ./src
 
 if [ ! -f configure ]; then
   echo "configure.sh not found - running autoconf"
-  ./autogen.sh && \
+  ./autogen.sh
+fi
+
+if [ -f configure ]; then
   ./configure.sh \
   --with-native-compilation \
   --without-compress-install \
@@ -15,4 +19,6 @@ if [ ! -f configure ]; then
   --enable-linktime-optimization \
   --with-x && \
   echo "Config complete, ready to build."
-  fi
+fi
+
+cd ../
