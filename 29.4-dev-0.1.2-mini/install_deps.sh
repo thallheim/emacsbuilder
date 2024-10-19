@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 echo "-----------------------------------"
 echo " Install build dependencies"
 echo "-----------------------------------"
@@ -9,19 +9,20 @@ echo "-----------------------------------"
 #############################################
 KERNEL_VERSION=$(uname -v)
 KERNEL_NAME=$(uname -s)
-PLATFORM=
-SUPPORTED="Debian" "Ubuntu" "Arch"
-for str in "${SUPPORTED[@]}"; do
-    if [[ "$KERNEL_VERSION" == *"$SUPPORTED" ]]; then
-        PLATFORM=$str
-        break
-    else
-        if [[ $KERNEL_NAME == *"mingw" ]]; then
-            PLATFORM="mingw64"
-        fi
+PLATFORM_SUPPORTED=false
+SUPPORTED="Debian Ubuntu Arch"
+if [[ $KERNEL_VERSION == *"$SUPPORTED"* ]]; then
+    PLATFORM_SUPPORTED=true
+else
+    if [[ $KERNEL_NAME == *"mingw" ]]; then
+        PLATFORM_SUPPORTED=true
     fi
-done
-echo "Got platform: ${PLATFORM}"
+fi
+
+if [[ ! $PLATFORM_SUPPORTED ]]; then
+    echo "FATAL: Unsupported platform (maybe) - exiting"
+    exit 1
+fi
 
 #############################################
 # Debian
@@ -32,10 +33,10 @@ echo "Got platform: ${PLATFORM}"
 # MSYS2/mingw64
 #############################################
 
-if [[ ! $PLATFORM == "mingw64"]]; then
-    echo ":::: FATAL: Platform unsupported ::::::::::::::::::::::::::"
-    echo "Modify the script to match your system if you know it will work."
-    echo "Otherwise go install the dependencies manually and then proceed to config."
+if [[ ! $PLATFORM == "mingw64" ]]; then
+    echo "::::::: FATAL: Platform unsupported :::::::::::::::::::::::::::::::::::::::::"
+    echo "Modify the script to match your system if you know it will work. Otherwise"
+    echo "go install the dependencies manually and then proceed to config."
     exit 1
 fi
 
