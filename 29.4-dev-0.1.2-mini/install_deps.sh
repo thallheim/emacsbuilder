@@ -11,8 +11,8 @@ KERNEL_VERSION=$(uname -v)
 KERNEL_NAME=$(uname -s)
 PLATFORM=
 SUPPORTED="Debian" "Ubuntu" "Arch"
-for str in $SUPPORTED[@]; do
-    if [[ $KERNEL_VERSION == *$SUPPORTED ]]; then
+for str in "${SUPPORTED[@]}"; do
+    if [[ "$KERNEL_VERSION" == *"$SUPPORTED" ]]; then
         PLATFORM=$str
         break
     else
