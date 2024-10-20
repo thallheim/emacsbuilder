@@ -1,42 +1,45 @@
 #!/bin/bash
-echo "-----------------------------------"
+echo "--------------------------------------------------"
 echo " Install build dependencies"
-echo "-----------------------------------"
+echo "--------------------------------------------------"
 
 
-#############################################
-# PLATFORM CHECK
+
+### PLATFORM CHECK
 #############################################
 KERNEL_VERSION=$(uname -v)
 KERNEL_NAME=$(uname -s)
 PLATFORM_SUPPORTED=false
-SUPPORTED="Debian Ubuntu Arch"
-if [[ $KERNEL_VERSION == *"$SUPPORTED"* ]]; then
-    PLATFORM_SUPPORTED=true
-else
-    if [[ $KERNEL_NAME == *"mingw" ]]; then
+PLATFORM=
+SUPPORTED=("Arch" "Debian" "MINGW64" "Ubuntu")
+
+for distro in "${SUPPORTED[@]}"; do
+    if [[ $KERNEL_VERSION == *"$distro"* || $KERNEL_NAME == *"$distro"* ]]; then
         PLATFORM_SUPPORTED=true
+        PLATFORM=${distro}
+        break
     fi
+done
+
+### Debian
+#############################################
+if [[ $PLATFORM == "Debian" ]]; then
+    (sudo apt build-dep emacs && \
+        sudo apt install -y libgccjit0 libgccjit-12-dev libjansson4 \
+             libjansson-dev gnutls-bin libtree-sitter-dev)
+    echo "Dependencies installed"
 fi
 
-if [[ ! $PLATFORM_SUPPORTED ]]; then
-    echo "FATAL: Unsupported platform (maybe) - exiting"
-    exit 1
-fi
-
-#############################################
-# Debian
+### MSYS2/mingw64
 #############################################
 
-
-#############################################
-# MSYS2/mingw64
-#############################################
-
-if [[ ! $PLATFORM == "mingw64" ]]; then
-    echo "::::::: FATAL: Platform unsupported :::::::::::::::::::::::::::::::::::::::::"
-    echo "Modify the script to match your system if you know it will work. Otherwise"
-    echo "go install the dependencies manually and then proceed to config."
+if [[ ! $$PLATFORM_SUPPORTED && ! $IS_MINGW ]]; then
+    echo "............................................................................."
+    echo ":::: FATAL: Platform (maybe) unsupported                                    :"
+    echo "¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨"
+    echo "  Modify the script to match your system if you know it will work, and can"
+    echo "  be bothered to. If not, go install the dependencies manually and then"
+    echo "  proceed to config."
     exit 1
 fi
 
