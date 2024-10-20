@@ -21,41 +21,33 @@ for distro in "${SUPPORTED[@]}"; do
     fi
 done
 
+
 ### Debian
 #############################################
 if [[ $PLATFORM == "Debian" ]]; then
     (sudo apt build-dep emacs && \
         sudo apt install -y libgccjit0 libgccjit-12-dev libjansson4 \
-             libjansson-dev gnutls-bin libtree-sitter-dev)
-    echo "Dependencies installed"
+             libjansson-dev gnutls-bin libtree-sitter-dev) && \
+        echo "Dependencies installed"
 fi
+
 
 ### MSYS2/mingw64
 #############################################
-
-if [[ ! $$PLATFORM_SUPPORTED && ! $IS_MINGW ]]; then
-    echo "............................................................................."
-    echo ":::: FATAL: Platform (maybe) unsupported                                    :"
-    echo "¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨"
-    echo "  Modify the script to match your system if you know it will work, and can"
-    echo "  be bothered to. If not, go install the dependencies manually and then"
-    echo "  proceed to config."
-    exit 1
-fi
-
-
+if [[ $PLATFORM == "MINGW64" ]]; then
 # MINIMAL
-pacman -Syu && pacman -S --needed \
-  autoconf \
-  automake \
-  base-devel \
-  git \
-  libcurl \
-  libgc \
-  mingw-w64-x86_64-gmp \
-  mingw-w64-x86_64-toolchain
-  mingw-w64-x86_64-xpm-nox \
-  texinfo
+    (pacman -Syu && pacman -S --needed \
+        autoconf \
+        automake \
+        base-devel \
+        git \
+        libcurl \
+        libgc \
+        mingw-w64-x86_64-gmp \
+        mingw-w64-x86_64-toolchain \
+        mingw-w64-x86_64-xpm-nox \
+        texinfo) && \
+        echo "Dependencies installed"
 
 # FULL
 # pacman -Syu && pacman -S --needed \
