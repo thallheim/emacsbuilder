@@ -89,3 +89,14 @@ if [[ $PLATFORM == "MINGW64" ]]; then
 #   mingw-w64-x86_64-winpthreads \
 #   mingw-w64-x86_64-xpm-nox \
 #   texinfo
+fi
+
+if [[ ! $$PLATFORM_SUPPORTED ]]; then
+    echo "............................................................................."
+    echo ":::: FATAL: Platform (maybe) unsupported                                    :"
+    echo "¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨"
+    echo "  Modify the script to match your system if you know it will work, and can"
+    echo "  be bothered to. If not, go install the dependencies manually and then"
+    echo "  proceed to config."
+    exit 1
+fi
