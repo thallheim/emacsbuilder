@@ -3,7 +3,7 @@ echo "------------------------"
 echo " Building"
 echo "------------------------"
 
-$VERSION="30.1"
+VERSION="30.1"
 
 export CFLAGS=-Wno-error=implicit-function-declaration
 
