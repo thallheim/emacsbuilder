@@ -62,6 +62,7 @@ if [ -f ./src-$VERSION/configure ]; then
         --with-pgtk \
         --with-tree-sitter \
         --with-wide-int \
+        --with-native-compilation=aot \
         --enable-link-time-optimization \
         --disable-gc-mark-trace && \
     echo "Config complete, ready to build."
